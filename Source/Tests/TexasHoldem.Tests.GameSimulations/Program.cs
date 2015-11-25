@@ -8,11 +8,15 @@
     {
         public static void Main()
         {
-            SimulateGames(new SmartVsSmarterPlayerSimulator());
-            SimulateGames(new SmartVsAlwaysCallPlayerSimulation());
-            SimulateGames(new SmartVsDummyPlayerSimulator());
-            SimulateGames(new SmartVsSmartPlayerSimulator());
-            SimulateGames(new AlwaysCallPlayersGameSimulation());
+            SimulateGames(new NotASmartVsSmarterPlayerSimulator());
+            SimulateGames(new NotASmartVsSmarterPlayerSimulator());
+            SimulateGames(new NotASmartVsSmarterPlayerSimulator());
+            SimulateGames(new NotASmartVsSmarterPlayerSimulator());
+            SimulateGames(new NotASmartVsSmarterPlayerSimulator());
+            SimulateGames(new NotASmartVsSmarterPlayerSimulator());
+            SimulateGames(new NotASmartVsSmarterPlayerSimulator());
+            SimulateGames(new NotASmartVsSmarterPlayerSimulator());
+            SimulateGames(new NotASmartVsSmarterPlayerSimulator());
         }
 
         private static void SimulateGames(IGameSimulator gameSimulator)
