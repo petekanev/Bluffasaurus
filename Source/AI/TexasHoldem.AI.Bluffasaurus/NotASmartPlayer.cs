@@ -1,5 +1,6 @@
 ﻿namespace TexasHoldem.AI.Bluffasaurus
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
 
@@ -11,7 +12,7 @@
 
     public class NotASmartPlayer : BasePlayer
     {
-        public override string Name { get { return "Pesho"; } }
+        public override string Name { get ; } = "SmartPlayer_" + Guid.NewGuid();
 
         public override PlayerAction GetTurn(GetTurnContext context)
         {
