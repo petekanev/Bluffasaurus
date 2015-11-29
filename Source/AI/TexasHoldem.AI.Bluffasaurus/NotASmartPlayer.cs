@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-
-namespace TexasHoldem.AI.SmartPlayer
+﻿namespace TexasHoldem.AI.Bluffasaurus
 {
+    using System.Collections.Generic;
+    using System.Linq;
+
     using Helpers;
     using Logic;
     using Logic.Cards;
