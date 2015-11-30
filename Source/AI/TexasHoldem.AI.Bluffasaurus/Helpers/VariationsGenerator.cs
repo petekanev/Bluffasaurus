@@ -28,7 +28,14 @@
 
             if (k == 0)
             {
-                cardVariations.Add(variation.Clone() as Card[]);
+                var variationToAdd = new Card[variation.Length];
+
+                for (int i = 0; i < variation.Length; i++)
+                {
+                    variationToAdd[i] = variation[i];
+                }
+
+                cardVariations.Add(variationToAdd);
                 return;
             }
 
