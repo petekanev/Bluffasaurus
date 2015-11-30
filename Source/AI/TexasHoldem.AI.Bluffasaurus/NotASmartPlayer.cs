@@ -16,6 +16,11 @@
 
         public override PlayerAction GetTurn(GetTurnContext context)
         {
+            var hand = new List<Card>();
+            hand.Add(this.FirstCard);
+            hand.Add(this.SecondCard);
+            var ehs = EffectiveHandStrenghtCalculator.CalculateEHS(hand, this.CommunityCards);
+
             if (context.RoundType == GameRoundType.PreFlop)
             {
                 var playHand = HandStrengthValuationSmarterBot.PreFlop(this.FirstCard, this.SecondCard);
