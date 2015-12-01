@@ -199,18 +199,24 @@
                 }
                 else if (ehs < 0.7)
                 {
-                    var smallBlindsTimes = RandomProvider.Next(8, 16);
-                    return PlayerAction.Raise(context.SmallBlind * smallBlindsTimes);
+                    // var smallBlindsTimes = RandomProvider.Next(8, 16);
+                    var currentPot = context.CurrentPot;
+                    int moneyToBet = (int)(currentPot * 0.85);
+                    return PlayerAction.Raise(moneyToBet);
                 }
                 else if (ehs < 0.9)
                 {
-                    var smallBlindsTimes = RandomProvider.Next(16, 32);
-                    return PlayerAction.Raise(context.SmallBlind * smallBlindsTimes);
+                    // var smallBlindsTimes = RandomProvider.Next(16, 32);
+                    var currentPot = context.CurrentPot;
+                    int moneyToBet = (int)(currentPot * 0.9);
+                    return PlayerAction.Raise(moneyToBet);
                 }
                 else
                 {
-                    var smallBlindsTimes = RandomProvider.Next(32, 64);
-                    return PlayerAction.Raise(context.SmallBlind * smallBlindsTimes);
+                    // var smallBlindsTimes = RandomProvider.Next(32, 64);
+                    var currentPot = context.CurrentPot;
+                    int moneyToBet = currentPot;
+                    return PlayerAction.Raise(moneyToBet);
                 }
             }
         }
