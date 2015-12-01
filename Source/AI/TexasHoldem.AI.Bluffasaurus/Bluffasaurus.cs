@@ -21,7 +21,7 @@
                 var playHand = HandStrengthValuationSmarterBot.PreFlop(this.FirstCard, this.SecondCard);
                 if (playHand == CardValuationTypeForSmarterBot.group1)
                 {
-                    if (context.CanCheck)
+                    if (context.MoneyToCall < context.CurrentPot / 2 || context.MoneyToCall < context.MoneyLeft / 100)
                     {
                         return PlayerAction.CheckOrCall();
                     }
@@ -33,46 +33,118 @@
 
                 if (playHand == CardValuationTypeForSmarterBot.group2)
                 {
-                    return PlayerAction.CheckOrCall();
+                    if (context.MoneyToCall < context.CurrentPot / 2 || context.MoneyToCall < context.MoneyLeft / 100)
+                    {
+                        return PlayerAction.CheckOrCall();
+                    }
+                    else
+                    {
+                        return PlayerAction.Fold();
+                    }
                 }
 
                 if (playHand == CardValuationTypeForSmarterBot.group3)
                 {
-                    return PlayerAction.CheckOrCall();
+                    if (context.MoneyToCall < context.CurrentPot / 2 || context.MoneyToCall < context.MoneyLeft / 100)
+                    {
+                        return PlayerAction.CheckOrCall();
+                    }
+                    else
+                    {
+                        return PlayerAction.Fold();
+                    }
                 }
 
                 if (playHand == CardValuationTypeForSmarterBot.group4)
                 {
-                    return PlayerAction.CheckOrCall();
+                    if (context.MoneyToCall < context.CurrentPot / 2)
+                    {
+                        return PlayerAction.CheckOrCall();
+                    }
+                    else
+                    {
+                        return PlayerAction.Fold();
+                    }
                 }
 
                 if (playHand == CardValuationTypeForSmarterBot.group5)
                 {
-                    return PlayerAction.CheckOrCall();
+                    if (context.MoneyToCall <= context.MyMoneyInTheRound || context.MoneyToCall < context.MoneyLeft / 25)
+                    {
+                        return PlayerAction.CheckOrCall();
+                    }
+                    else
+                    {
+                        return PlayerAction.Fold();
+                    }
                 }
 
                 if (playHand == CardValuationTypeForSmarterBot.group6)
                 {
-                    var smallBlindsTimes = RandomProvider.Next(2, 4);
-                    return PlayerAction.Raise(context.SmallBlind * smallBlindsTimes);
+                    if (context.MoneyToCall < context.MoneyLeft / 7)
+                    {
+                        if (context.MoneyToCall + context.CurrentPot == context.SmallBlind * 4)
+                        {
+                            return PlayerAction.Raise(4 * context.SmallBlind);
+                        }
+
+                        return PlayerAction.CheckOrCall();
+                    }
+                    else
+                    {
+                        return PlayerAction.Fold();
+                    }
                 }
 
                 if (playHand == CardValuationTypeForSmarterBot.group7)
                 {
-                    var smallBlindsTimes = RandomProvider.Next(4, 8);
-                    return PlayerAction.Raise(context.SmallBlind * smallBlindsTimes);
+                    if (context.MoneyToCall < context.MoneyLeft / 5 || context.MoneyLeft < 150 || context.SmallBlind * 6 > context.MoneyToCall)
+                    {
+                        if (context.MoneyToCall + context.CurrentPot == context.SmallBlind * 4)
+                        {
+                            return PlayerAction.Raise(6 * context.SmallBlind);
+                        }
+
+                        return PlayerAction.CheckOrCall();
+                    }
+                    else
+                    {
+                        return PlayerAction.Fold();
+                    }
                 }
 
                 if (playHand == CardValuationTypeForSmarterBot.group8)
                 {
-                    var smallBlindsTimes = RandomProvider.Next(8, 16);
-                    return PlayerAction.Raise(context.SmallBlind * smallBlindsTimes);
+                    if (context.MoneyToCall < context.MoneyLeft / 4 || context.MoneyLeft < 250 || context.SmallBlind * 8 > context.MoneyToCall)
+                    {
+                        if (context.MoneyToCall + context.CurrentPot == context.SmallBlind * 4)
+                        {
+                            return PlayerAction.Raise(8 * context.SmallBlind);
+                        }
+
+                        return PlayerAction.CheckOrCall();
+                    }
+                    else
+                    {
+                        return PlayerAction.Fold();
+                    }
                 }
 
                 if (playHand == CardValuationTypeForSmarterBot.group9)
                 {
-                    var smallBlindsTimes = RandomProvider.Next(16, 32);
-                    return PlayerAction.Raise(context.SmallBlind * smallBlindsTimes);
+                    if (context.MoneyToCall < context.MoneyLeft / 3 || context.MoneyLeft < 250 || context.SmallBlind * 8 > context.MoneyToCall)
+                    {
+                        if (context.MoneyToCall + context.CurrentPot == context.SmallBlind * 4)
+                        {
+                            return PlayerAction.Raise(10 * context.SmallBlind);
+                        }
+
+                        return PlayerAction.CheckOrCall();
+                    }
+                    else
+                    {
+                        return PlayerAction.Fold();
+                    }
                 }
 
                 return PlayerAction.CheckOrCall();

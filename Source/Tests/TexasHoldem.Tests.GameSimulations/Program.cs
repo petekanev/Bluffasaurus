@@ -8,7 +8,8 @@
     {
         public static void Main()
         {
-            SimulateGames(new BluffasaurusVsNotASmartPlayerSimulator());
+            //SimulateGames(new BluffasaurusVsNotASmartPlayerSimulator());
+            SimulateGames(new BluffasaurusVsBluffasaurusNormal());
         }
 
         private static void SimulateGames(IGameSimulator gameSimulator)

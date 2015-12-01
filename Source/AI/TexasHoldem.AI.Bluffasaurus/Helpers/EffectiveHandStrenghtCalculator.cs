@@ -224,25 +224,6 @@
             }
         }
 
-        //private static void GeneratePermutations(Card[] cards, int startigPosition)
-        //{
-        //    if (startigPosition >= cards.Length)
-        //    {
-        //        DetermineWhoWinsHand(playerHand, cardsOnTable, cards);
-        //        return;
-        //    }
-        //    else
-        //    {
-        //        GeneratePermutations(cards, startigPosition + 1);
-        //        for (int i = startigPosition + 1; i < cards.Length; i++)
-        //        {
-        //            Swap(startigPosition, i, cards);
-        //            GeneratePermutations(cards, startigPosition + 1);
-        //            Swap(startigPosition, i, cards);
-        //        }
-        //    }
-        //}
-
         private static void Swap(int start, int end, Card[] array)
         {
             var buffer = array[end];
