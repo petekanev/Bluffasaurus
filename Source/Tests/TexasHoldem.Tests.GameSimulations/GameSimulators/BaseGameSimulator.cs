@@ -23,7 +23,7 @@
             //// TODO: Parallel.For(1, numberOfGames + 1, i =>
             for (var i = 1; i < numberOfGames + 1; i++)
             {
-                if (i % 10 == 0)
+                if (i % 1 == 0)
                 {
                     Console.Write(".");
                 }

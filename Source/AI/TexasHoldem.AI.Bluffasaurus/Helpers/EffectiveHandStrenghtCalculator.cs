@@ -8,114 +8,246 @@
 
     public class EffectiveHandStrenghtCalculator
     {
+        private static int ahead;
+        private static int tied;
+        private static int behind;
+        private static IList<Card> playerHand;
+        private static IList<Card> cardsOnTable;
+        private static IList<Card> lastHandAndCardsOnTable;
+        private static double lastEHS;
+        private static Random rand = new Random();
+
         public static double CalculateEHS(IList<Card> hand, IReadOnlyCollection<Card> board)
         {
-            int ahead = 0;
-            int tied = 0;
-            int behind = 0;
+            ahead = 0;
+            tied = 0;
+            behind = 0;
+            playerHand = hand;
+            cardsOnTable = board.ToList();
 
-            var deck = new FalseDeck(hand.Concat(board)).AllCards;
+            var deck = new FalseDeck(playerHand.Concat(cardsOnTable)).AllCards;
+            var handAndCardsOnTable = playerHand.Concat(cardsOnTable).ToList();
 
-            var allCardVariations = VariationsGenerator.GetVariations(7 - board.Count, deck);
-
-            // if it is flop or turn we take only 10 000 random variations and calculate them.
-            if (board.Count <= 4)
+            // MEMOIZATION
+            if (lastHandAndCardsOnTable == null)
             {
-                // generate 10 000 random numbers from 0 to allCards.Count
-                Random rnd = new Random();
-                var indexes = new HashSet<int>();
-                while (indexes.Count < 10000)
+                lastHandAndCardsOnTable = new List<Card>();
+            }
+
+            // check if we memoised the cards to not calculate them again
+            var isMemoised = false;
+            if (lastHandAndCardsOnTable.Count() == handAndCardsOnTable.Count)
+            {
+                isMemoised = true;
+                for (int i = 0; i < lastHandAndCardsOnTable.Count(); i++)
                 {
-                    var randomNumber = rnd.Next(1, int.MaxValue);
-                    indexes.Add(randomNumber % allCardVariations.Count);
-                }
-
-                foreach (var index in indexes)
-                {
-                    var variation = allCardVariations[index];
-
-                    var communityCards = new List<Card>();
-                    var otherPlayerHand = new List<Card>();
-
-                    foreach (var card in board)
+                    if (handAndCardsOnTable[i].Suit != lastHandAndCardsOnTable[i].Suit || handAndCardsOnTable[i].Type != lastHandAndCardsOnTable[i].Type)
                     {
-                        communityCards.Add(card);
-                    }
-
-                    for (int i = 0; i < variation.Length; i++)
-                    {
-                        if (i <= 1)
-                        {
-                            otherPlayerHand.Add(variation[i]);
-                        }
-                        else
-                        {
-                            communityCards.Add(variation[i]);
-                        }
-                    }
-
-                    var betterHand = Logic.Helpers.Helpers.CompareCards(
-                    hand.Concat(communityCards),
-                    otherPlayerHand.Concat(communityCards));
-                    if (betterHand > 0)
-                    {
-                        ahead++;
-                    }
-                    else if (betterHand < 0)
-                    {
-                        behind++;
-                    }
-                    else
-                    {
-                        tied++;
+                        isMemoised = false;
+                        break;
                     }
                 }
+            }
 
-                return (double)ahead / (ahead + tied + behind);
+            if (!isMemoised)
+            {
+                GenerateCombinations(7 - cardsOnTable.Count, 0, deck);
+                lastHandAndCardsOnTable = handAndCardsOnTable;
+                lastEHS = (double)ahead / (ahead + tied + behind);
+            }
+
+            return lastEHS;
+        }
+
+        private static void DetermineWhoWinsHand(IList<Card> hand, IList<Card> board, Card[] variation)
+        {
+            var communityCards = new List<Card>();
+            var otherPlayerHand = new List<Card>();
+
+            foreach (var card in board)
+            {
+                communityCards.Add(card);
+            }
+
+            for (int i = 0; i < variation.Length; i++)
+            {
+                if (i <= 1)
+                {
+                    otherPlayerHand.Add(variation[i]);
+                }
+                else
+                {
+                    communityCards.Add(variation[i]);
+                }
+            }
+
+            var betterHand = Logic.Helpers.Helpers.CompareCards(
+            hand.Concat(communityCards),
+            otherPlayerHand.Concat(communityCards));
+            if (betterHand > 0)
+            {
+                ahead++;
+            }
+            else if (betterHand < 0)
+            {
+                behind++;
             }
             else
             {
-                foreach (var variation in allCardVariations)
+                tied++;
+            }
+        }
+
+        private static void GenerateVariations(int k, IList<Card> set, Card[] variation = null, bool[] used = null)
+        {
+            if (variation == null)
+            {
+                variation = new Card[k];
+            }
+
+            if (used == null)
+            {
+                used = new bool[set.Count];
+            }
+
+            if (k == 0)
+            {
+                // MONTE CARLO -> we calculate only around 10 000 cases
+                switch (variation.Length)
                 {
-                    var communityCards = new List<Card>();
-                    var otherPlayerHand = new List<Card>();
-
-                    foreach (var card in board)
-                    {
-                        communityCards.Add(card);
-                    }
-
-                    for (int i = 0; i < variation.Length; i++)
-                    {
-                        if (i <= 1)
+                    case 3:
+                        if (rand.Next(0, int.MaxValue) % 5 == 0)
                         {
-                            otherPlayerHand.Add(variation[i]);
+                            DetermineWhoWinsHand(playerHand, cardsOnTable, variation);
                         }
-                        else
-                        {
-                            communityCards.Add(variation[i]);
-                        }
-                    }
 
-                    var betterHand = Logic.Helpers.Helpers.CompareCards(
-                    hand.Concat(communityCards),
-                    otherPlayerHand.Concat(communityCards));
-                    if (betterHand > 0)
-                    {
-                        ahead++;
-                    }
-                    else if (betterHand < 0)
-                    {
-                        behind++;
-                    }
-                    else
-                    {
-                        tied++;
-                    }
+                        break;
+                    case 4:
+                        if (rand.Next(0, int.MaxValue) % 107 == 0)
+                        {
+                            DetermineWhoWinsHand(playerHand, cardsOnTable, variation);
+                        }
+
+                        break;
+                    default:
+                        DetermineWhoWinsHand(playerHand, cardsOnTable, variation);
+                        break;
                 }
 
-                return (double)ahead / (ahead + tied + behind);
+                return;
             }
+
+            for (int i = 0; i < set.Count; i++)
+            {
+                if (!used[i])
+                {
+                    variation[k - 1] = set[i];
+                    used[i] = true;
+                    GenerateVariations(k - 1, set, variation, used);
+                    used[i] = false;
+                }
+            }
+        }
+
+        private static void GenerateCombinations(int k, int startingPosition, IList<Card> set, Card[] combination = null)
+        {
+            if (combination == null)
+            {
+                combination = new Card[k];
+            }
+
+            if (k == 0)
+            {
+                GenerateOpponentHand(2, 0, combination);
+                return;
+            }
+
+            for (int i = startingPosition; i < set.Count; i++)
+            {
+                combination[k - 1] = set[i];
+                GenerateCombinations(k - 1, i + 1, set, combination);
+            }
+        }
+
+        private static void GenerateOpponentHand(int k, int startingPosition, IList<Card> set, Card[] combination = null)
+        {
+            if (combination == null)
+            {
+                combination = new Card[k];
+            }
+
+            if (k == 0)
+            {
+                // MONTE CARLO -> we calculate only around 10 000 cases
+                switch (set.Count)
+                {
+                    case 3:
+                        if (rand.Next(0, int.MaxValue) % 9 == 0)
+                        {
+                            var index1 = set.IndexOf(combination[0]);
+                            Swap(0, index1, set.ToArray());
+                            var index2 = set.IndexOf(combination[1]);
+                            Swap(1, index2, set.ToArray());
+                            DetermineWhoWinsHand(playerHand, cardsOnTable, set.ToArray());
+                        }
+
+                        break;
+                    case 4:
+                        if (rand.Next(0, int.MaxValue) % 420 == 0)
+                        {
+                            var index1 = set.IndexOf(combination[0]);
+                            Swap(0, index1, set.ToArray());
+                            var index2 = set.IndexOf(combination[1]);
+                            Swap(1, index2, set.ToArray());
+                            DetermineWhoWinsHand(playerHand, cardsOnTable, set.ToArray());
+                        }
+
+                        break;
+                    default:
+                        {
+                            var index1 = set.IndexOf(combination[0]);
+                            Swap(0, index1, set.ToArray());
+                            var index2 = set.IndexOf(combination[1]);
+                            Swap(1, index2, set.ToArray());
+                            DetermineWhoWinsHand(playerHand, cardsOnTable, set.ToArray());
+                            break;
+                        }
+                }
+
+                return;
+            }
+
+            for (int i = startingPosition; i < set.Count; i++)
+            {
+                combination[k - 1] = set[i];
+                GenerateOpponentHand(k - 1, i + 1, set, combination);
+            }
+        }
+
+        //private static void GeneratePermutations(Card[] cards, int startigPosition)
+        //{
+        //    if (startigPosition >= cards.Length)
+        //    {
+        //        DetermineWhoWinsHand(playerHand, cardsOnTable, cards);
+        //        return;
+        //    }
+        //    else
+        //    {
+        //        GeneratePermutations(cards, startigPosition + 1);
+        //        for (int i = startigPosition + 1; i < cards.Length; i++)
+        //        {
+        //            Swap(startigPosition, i, cards);
+        //            GeneratePermutations(cards, startigPosition + 1);
+        //            Swap(startigPosition, i, cards);
+        //        }
+        //    }
+        //}
+
+        private static void Swap(int start, int end, Card[] array)
+        {
+            var buffer = array[end];
+            array[end] = array[start];
+            array[start] = buffer;
         }
     }
 }
