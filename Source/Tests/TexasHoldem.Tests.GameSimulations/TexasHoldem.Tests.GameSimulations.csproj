@@ -64,6 +64,7 @@
     <Compile Include="GameSimulators\AlwaysCallPlayersGameSimulation.cs" />
     <Compile Include="GameSimulators\BaseGameSimulator.cs" />
     <Compile Include="GameSimulators\BluffasaurusVsNotASmartPlayerSimulator.cs" />
+    <Compile Include="GameSimulators\BluffasaurusVsSmartPlayerSimulator.cs" />
     <Compile Include="GameSimulators\GameSimulationResult.cs" />
     <Compile Include="GameSimulators\IGameSimulator.cs" />
     <Compile Include="GameSimulators\NotASmartVsSmarterPlayerSimulator.cs" />

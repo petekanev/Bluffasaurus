@@ -44,7 +44,6 @@
     <Compile Include="Helpers\FalseDeck.cs" />
     <Compile Include="Helpers\FlopCardStrengthEvaluation.cs" />
     <Compile Include="Helpers\HandStrengthValuationSmarterBot.cs" />
-    <Compile Include="Helpers\VariationsGenerator.cs" />
     <Compile Include="Bluffasaurus.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
