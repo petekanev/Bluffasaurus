@@ -1,6 +1,6 @@
 ﻿namespace TexasHoldem.AI.Bluffasaurus.Helpers
 {
-    public enum CardValuationTypeForSmarterBot
+    public enum CardValuationTypeForBluffasaurus
     {
         group1 = 0,
         group2 = 1000,

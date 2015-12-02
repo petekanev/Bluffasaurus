@@ -74,6 +74,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\AI\TexasHoldem.AI.Bluffasaurus\TexasHoldem.AI.Bluffasaurus.csproj">
+      <Project>{4ae448f3-e881-47eb-838d-6d9ab06cf2ae}</Project>
+      <Name>TexasHoldem.AI.Bluffasaurus</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\AI\TexasHoldem.AI.DummyPlayer\TexasHoldem.AI.DummyPlayer.csproj">
       <Project>{8f8a872b-a022-4085-aabc-d3bc12b7c1d8}</Project>
       <Name>TexasHoldem.AI.DummyPlayer</Name>

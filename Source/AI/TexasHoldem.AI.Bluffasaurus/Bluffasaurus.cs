@@ -2,12 +2,10 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
 
     using Helpers;
     using Logic;
     using Logic.Cards;
-    using Logic.Extensions;
     using Logic.Players;
 
     public class Bluffasaurus : BasePlayer
@@ -18,136 +16,230 @@
         {
             if (context.RoundType == GameRoundType.PreFlop)
             {
-                var playHand = HandStrengthValuationSmarterBot.PreFlop(this.FirstCard, this.SecondCard);
-                if (playHand == CardValuationTypeForSmarterBot.group1)
-                {
-                    if (context.MoneyToCall < context.CurrentPot / 2 || context.MoneyToCall < context.MoneyLeft / 100)
-                    {
-                        return PlayerAction.CheckOrCall();
-                    }
-                    else
-                    {
-                        return PlayerAction.Fold();
-                    }
-                }
+                var handValue = HandStrengthValuationBluffasaurus.PreFlop(this.FirstCard, this.SecondCard);
 
-                if (playHand == CardValuationTypeForSmarterBot.group2)
+                // if we are first to act on a small blind
+                if (context.MoneyToCall == context.SmallBlind && context.CurrentPot == context.SmallBlind * 3)
                 {
-                    if (context.MoneyToCall < context.CurrentPot / 2 || context.MoneyToCall < context.MoneyLeft / 100)
+                    if (handValue >= 64)
                     {
-                        return PlayerAction.CheckOrCall();
+                        return PlayerAction.Raise(context.SmallBlind * 10);
                     }
-                    else
+                    else if (handValue >= 55)
                     {
-                        return PlayerAction.Fold();
+                        return PlayerAction.Raise(context.SmallBlind * 7);
                     }
-                }
-
-                if (playHand == CardValuationTypeForSmarterBot.group3)
-                {
-                    if (context.MoneyToCall < context.CurrentPot / 2 || context.MoneyToCall < context.MoneyLeft / 100)
+                    else if (handValue >= 43) // that makes around 74% of all possible hands
                     {
-                        return PlayerAction.CheckOrCall();
-                    }
-                    else
-                    {
-                        return PlayerAction.Fold();
-                    }
-                }
-
-                if (playHand == CardValuationTypeForSmarterBot.group4)
-                {
-                    if (context.MoneyToCall < context.CurrentPot / 2)
-                    {
-                        return PlayerAction.CheckOrCall();
-                    }
-                    else
-                    {
-                        return PlayerAction.Fold();
-                    }
-                }
-
-                if (playHand == CardValuationTypeForSmarterBot.group5)
-                {
-                    if (context.MoneyToCall <= context.MyMoneyInTheRound || context.MoneyToCall < context.MoneyLeft / 25)
-                    {
-                        return PlayerAction.CheckOrCall();
-                    }
-                    else
-                    {
-                        return PlayerAction.Fold();
-                    }
-                }
-
-                if (playHand == CardValuationTypeForSmarterBot.group6)
-                {
-                    if (context.MoneyToCall < context.MoneyLeft / 7)
-                    {
-                        if (context.MoneyToCall + context.CurrentPot == context.SmallBlind * 4)
+                        // can be further optimized
+                        if (context.SmallBlind > context.MoneyLeft / 50)
                         {
-                            return PlayerAction.Raise(4 * context.SmallBlind);
+                            return PlayerAction.CheckOrCall();
                         }
 
+                        return PlayerAction.Raise(context.SmallBlind * 5);
+                    }
+                    else if (handValue > 40)
+                    {
                         return PlayerAction.CheckOrCall();
                     }
                     else
                     {
                         return PlayerAction.Fold();
                     }
-                }
 
-                if (playHand == CardValuationTypeForSmarterBot.group7)
+                }
+                else  // we are on big blind
                 {
-                    if (context.MoneyToCall < context.MoneyLeft / 5 || context.MoneyLeft < 150 || context.SmallBlind * 6 > context.MoneyToCall)
+                    // opponent has not raised
+                    if (context.MoneyToCall == 0)
                     {
-                        if (context.MoneyToCall + context.CurrentPot == context.SmallBlind * 4)
+                        if (handValue >= 64) // cards like AA, KK, AKs
                         {
-                            return PlayerAction.Raise(6 * context.SmallBlind);
+                            return PlayerAction.Raise(context.SmallBlind * 20);
                         }
-
-                        return PlayerAction.CheckOrCall();
+                        else if (handValue >= 60)
+                        {
+                            return PlayerAction.Raise(context.SmallBlind * 6);
+                        }
+                        else
+                        {
+                            return PlayerAction.CheckOrCall();
+                        }
                     }
-                    else
+                    else // opponent has raised
                     {
-                        return PlayerAction.Fold();
+                        // if opp has raised a lot(has a very strong hand)
+                        if (context.MoneyToCall > context.SmallBlind * 20 && context.MoneyToCall > 50)
+                        {
+                            if (handValue >= 64) // cards like AA, KK, AKs
+                            {
+                                return PlayerAction.Raise(context.SmallBlind * 20);
+                            }
+                            else if (handValue >= 60)
+                            {
+                                // we have some more money and want to wait for a better shot
+                                if (context.MoneyToCall > context.MoneyLeft / 4 && context.MoneyToCall > context.SmallBlind * 6)
+                                {
+                                    return PlayerAction.Fold();
+                                }
+                                else
+                                {
+                                    return PlayerAction.CheckOrCall();
+                                }
+                            }
+                            else
+                            {
+                                return PlayerAction.Fold();
+                            }
+                        }
+                        else // opponent has raised not a lot
+                        {
+                            if (handValue >= 64) // cards like AA, KK, AKs
+                            {
+                                return PlayerAction.Raise(context.SmallBlind * 20);
+                            }
+                            else if (handValue >= 60)
+                            {
+                                return PlayerAction.CheckOrCall();
+                            }
+                            else
+                            {
+                                return PlayerAction.Fold();
+                            }
+                        }
                     }
                 }
 
-                if (playHand == CardValuationTypeForSmarterBot.group8)
-                {
-                    if (context.MoneyToCall < context.MoneyLeft / 4 || context.MoneyLeft < 250 || context.SmallBlind * 8 > context.MoneyToCall)
-                    {
-                        if (context.MoneyToCall + context.CurrentPot == context.SmallBlind * 4)
-                        {
-                            return PlayerAction.Raise(8 * context.SmallBlind);
-                        }
+                //if (playHand == CardValuationTypeForBluffasaurus.group1)
+                //{
+                //    if (context.MoneyToCall < context.CurrentPot / 2 || context.MoneyToCall < context.MoneyLeft / 100)
+                //    {
+                //        return PlayerAction.CheckOrCall();
+                //    }
+                //    else
+                //    {
+                //        return PlayerAction.Fold();
+                //    }
+                //}
 
-                        return PlayerAction.CheckOrCall();
-                    }
-                    else
-                    {
-                        return PlayerAction.Fold();
-                    }
-                }
+                //if (playHand == CardValuationTypeForBluffasaurus.group2)
+                //{
+                //    if (context.MoneyToCall < context.CurrentPot / 2 || context.MoneyToCall < context.MoneyLeft / 100)
+                //    {
+                //        return PlayerAction.CheckOrCall();
+                //    }
+                //    else
+                //    {
+                //        return PlayerAction.Fold();
+                //    }
+                //}
 
-                if (playHand == CardValuationTypeForSmarterBot.group9)
-                {
-                    if (context.MoneyToCall < context.MoneyLeft / 3 || context.MoneyLeft < 250 || context.SmallBlind * 8 > context.MoneyToCall)
-                    {
-                        if (context.MoneyToCall + context.CurrentPot == context.SmallBlind * 4)
-                        {
-                            return PlayerAction.Raise(10 * context.SmallBlind);
-                        }
+                //if (playHand == CardValuationTypeForBluffasaurus.group3)
+                //{
+                //    if (context.MoneyToCall < context.CurrentPot / 2 || context.MoneyToCall < context.MoneyLeft / 100)
+                //    {
+                //        return PlayerAction.CheckOrCall();
+                //    }
+                //    else
+                //    {
+                //        return PlayerAction.Fold();
+                //    }
+                //}
 
-                        return PlayerAction.CheckOrCall();
-                    }
-                    else
-                    {
-                        return PlayerAction.Fold();
-                    }
-                }
+                //if (playHand == CardValuationTypeForBluffasaurus.group4)
+                //{
+                //    if (context.MoneyToCall < context.CurrentPot / 2)
+                //    {
+                //        return PlayerAction.CheckOrCall();
+                //    }
+                //    else
+                //    {
+                //        return PlayerAction.Fold();
+                //    }
+                //}
 
-                return PlayerAction.CheckOrCall();
+                //if (playHand == CardValuationTypeForBluffasaurus.group5)
+                //{
+                //    if (context.MoneyToCall <= context.MyMoneyInTheRound || context.MoneyToCall < context.MoneyLeft / 25)
+                //    {
+                //        return PlayerAction.CheckOrCall();
+                //    }
+                //    else
+                //    {
+                //        return PlayerAction.Fold();
+                //    }
+                //}
+
+                //if (playHand == CardValuationTypeForBluffasaurus.group6)
+                //{
+                //    if (context.MoneyToCall < context.MoneyLeft / 7)
+                //    {
+                //        if (context.MoneyToCall + context.CurrentPot == context.SmallBlind * 4)
+                //        {
+                //            return PlayerAction.Raise(4 * context.SmallBlind);
+                //        }
+
+                //        return PlayerAction.CheckOrCall();
+                //    }
+                //    else
+                //    {
+                //        return PlayerAction.Fold();
+                //    }
+                //}
+
+                //if (playHand == CardValuationTypeForBluffasaurus.group7)
+                //{
+                //    if (context.MoneyToCall < context.MoneyLeft / 5 || context.MoneyLeft < 150 || context.SmallBlind * 6 > context.MoneyToCall)
+                //    {
+                //        if (context.MoneyToCall + context.CurrentPot == context.SmallBlind * 4)
+                //        {
+                //            return PlayerAction.Raise(6 * context.SmallBlind);
+                //        }
+
+                //        return PlayerAction.CheckOrCall();
+                //    }
+                //    else
+                //    {
+                //        return PlayerAction.Fold();
+                //    }
+                //}
+
+                //if (playHand == CardValuationTypeForBluffasaurus.group8)
+                //{
+                //    if (context.MoneyToCall < context.MoneyLeft / 4 || context.MoneyLeft < 250 || context.SmallBlind * 8 > context.MoneyToCall)
+                //    {
+                //        if (context.MoneyToCall + context.CurrentPot == context.SmallBlind * 4)
+                //        {
+                //            return PlayerAction.Raise(8 * context.SmallBlind);
+                //        }
+
+                //        return PlayerAction.CheckOrCall();
+                //    }
+                //    else
+                //    {
+                //        return PlayerAction.Fold();
+                //    }
+                //}
+
+                //if (playHand == CardValuationTypeForBluffasaurus.group9)
+                //{
+                //    if (context.MoneyToCall < context.MoneyLeft / 3 || context.MoneyLeft < 250 || context.SmallBlind * 8 > context.MoneyToCall)
+                //    {
+                //        if (context.MoneyToCall + context.CurrentPot == context.SmallBlind * 4)
+                //        {
+                //            return PlayerAction.Raise(10 * context.SmallBlind);
+                //        }
+
+                //        return PlayerAction.CheckOrCall();
+                //    }
+                //    else
+                //    {
+                //        return PlayerAction.Fold();
+                //    }
+                //}
+
+                //return PlayerAction.CheckOrCall();
             }
             else
             {
