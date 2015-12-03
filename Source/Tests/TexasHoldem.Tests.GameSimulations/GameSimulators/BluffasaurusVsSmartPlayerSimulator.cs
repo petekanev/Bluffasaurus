@@ -8,6 +8,7 @@ namespace TexasHoldem.Tests.GameSimulations.GameSimulators
 {
     using AI.SmartPlayer;
     using Logic.Players;
+    using AI.DummyPlayer;
 
     public class BluffasaurusVsSmartPlayerSimulator : BaseGameSimulator
     {

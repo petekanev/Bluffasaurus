@@ -32,7 +32,8 @@
                     case ConsoleKey.R:
                         // ConsoleHelper.WriteOnConsole(this.row + 2, 2, $"Raise amount [1-{context.MoneyLeft}]:                                ");
                         // continue;
-                        action = PlayerAction.Raise(10);
+                        var amount = int.Parse(Console.ReadLine());
+                        action = PlayerAction.Raise(amount);
                         break;
                     case ConsoleKey.F:
                         action = PlayerAction.Fold();

@@ -61,19 +61,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="GameSimulators\AlwaysCallPlayersGameSimulation.cs" />
     <Compile Include="GameSimulators\BaseGameSimulator.cs" />
     <Compile Include="GameSimulators\BluffasaurusVsBluffasaurusNormal.cs" />
     <Compile Include="GameSimulators\BluffasaurusVsNotASmartPlayerSimulator.cs" />
     <Compile Include="GameSimulators\BluffasaurusVsSmartPlayerSimulator.cs" />
     <Compile Include="GameSimulators\GameSimulationResult.cs" />
     <Compile Include="GameSimulators\IGameSimulator.cs" />
-    <Compile Include="GameSimulators\NotASmartVsSmarterPlayerSimulator.cs" />
-    <Compile Include="GameSimulators\NotASmartVsSmartPlayerSimulator.cs" />
-    <Compile Include="GameSimulators\SmartVsAlwaysCallPlayerSimulation.cs" />
-    <Compile Include="GameSimulators\SmartVsDummyPlayerSimulator.cs" />
-    <Compile Include="GameSimulators\SmartVsSmarterPlayerSimulator.cs" />
-    <Compile Include="GameSimulators\SmartVsSmartPlayerSimulator.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

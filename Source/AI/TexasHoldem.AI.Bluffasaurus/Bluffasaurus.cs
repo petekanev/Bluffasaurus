@@ -39,7 +39,7 @@
 
                         return PlayerAction.Raise(context.SmallBlind * 5);
                     }
-                    else if (handValue > 40)
+                    else if (handValue > 40 && context.SmallBlind < context.MoneyLeft / 40)
                     {
                         return PlayerAction.CheckOrCall();
                     }
@@ -49,18 +49,28 @@
                     }
 
                 }
-                else  // we are on big blind
+                else  // we are on big blind or opp has raised
                 {
                     // opponent has not raised
                     if (context.MoneyToCall == 0)
                     {
                         if (handValue >= 64) // cards like AA, KK, AKs
                         {
-                            return PlayerAction.Raise(context.SmallBlind * 20);
+                            return PlayerAction.Raise(context.SmallBlind * 12);
                         }
                         else if (handValue >= 60)
                         {
                             return PlayerAction.Raise(context.SmallBlind * 6);
+                        }
+                        else if (handValue >= 43) // that makes around 74% of all possible hands
+                        {
+                            // can be further optimized
+                            if (context.SmallBlind > context.MoneyLeft / 50)
+                            {
+                                return PlayerAction.CheckOrCall();
+                            }
+
+                            return PlayerAction.Raise(context.SmallBlind * 2);
                         }
                         else
                         {
@@ -70,11 +80,11 @@
                     else // opponent has raised
                     {
                         // if opp has raised a lot(has a very strong hand)
-                        if (context.MoneyToCall > context.SmallBlind * 20 && context.MoneyToCall > 50)
+                        if (context.MoneyToCall > context.SmallBlind * 8 && context.MoneyToCall > 40)
                         {
                             if (handValue >= 64) // cards like AA, KK, AKs
                             {
-                                return PlayerAction.Raise(context.SmallBlind * 20);
+                                return PlayerAction.Raise(context.SmallBlind * 8);
                             }
                             else if (handValue >= 60)
                             {
@@ -93,13 +103,29 @@
                                 return PlayerAction.Fold();
                             }
                         }
-                        else // opponent has raised not a lot
+                        else // opponent has not raised a lot
                         {
                             if (handValue >= 64) // cards like AA, KK, AKs
                             {
-                                return PlayerAction.Raise(context.SmallBlind * 20);
+                                return PlayerAction.Raise(context.SmallBlind * 12);
                             }
                             else if (handValue >= 60)
+                            {
+                                // if we have already raised enough this round
+                                if (context.MyMoneyInTheRound > context.SmallBlind * 10)
+                                {
+                                    return PlayerAction.CheckOrCall();
+                                }
+                                else
+                                {
+                                    return PlayerAction.Raise(context.SmallBlind * 6);
+                                }
+                            }
+                            else if (handValue >= 55)
+                            {
+                                return PlayerAction.CheckOrCall();
+                            }
+                            else if (handValue >= 50 && context.MoneyToCall < 10)
                             {
                                 return PlayerAction.CheckOrCall();
                             }
