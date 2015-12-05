@@ -10,7 +10,6 @@
         {
             //SimulateGames(new BluffasaurusVsBluffasaurusNormal());
             SimulateGames(new BluffasaurusVsAlwaysRaisePlayerSimulator());
-            //SimulateGames(new BluffasaurusVsSmartPlayerSimulator());
         }
 
         private static void SimulateGames(IGameSimulator gameSimulator)
