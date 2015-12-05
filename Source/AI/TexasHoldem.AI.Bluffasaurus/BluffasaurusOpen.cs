@@ -18,6 +18,7 @@
             {
                 var handValue = HandStrengthValuationBluffasaurus.PreFlop(this.FirstCard, this.SecondCard);
                 var optimalValueCoeff = 2;
+                var raiseCoeff = 0 * context.SmallBlind;
 
                 var extreme = 64 - optimalValueCoeff;
                 var powerful = 60 - optimalValueCoeff;
@@ -31,15 +32,15 @@
                 {
                     if (handValue >= extreme)
                     {
-                        return PlayerAction.Raise(context.SmallBlind * (20 - 0));
+                        return PlayerAction.Raise(context.SmallBlind * 20 - raiseCoeff);
                     }
                     else if (handValue >= powerful)
                     {
-                        return PlayerAction.Raise(context.SmallBlind * (16 - 0));
+                        return PlayerAction.Raise(context.SmallBlind * 16 - raiseCoeff);
                     }
                     else if (handValue >= normal)
                     {
-                        return PlayerAction.Raise(context.SmallBlind * (12 - 0));
+                        return PlayerAction.Raise(context.SmallBlind * 12 - raiseCoeff);
                     }
                     else if (handValue >= awful) // that makes around 74% of all possible hands
                     {
@@ -49,7 +50,7 @@
                             return PlayerAction.CheckOrCall();
                         }
 
-                        return PlayerAction.Raise(context.SmallBlind * (10 - 0));
+                        return PlayerAction.Raise(context.SmallBlind * 10 - raiseCoeff);
                     }
                     else if (handValue > lowerLimit && context.SmallBlind < context.MoneyLeft / 40)
                     {
@@ -68,11 +69,11 @@
                     {
                         if (handValue >= extreme) // cards like AA, KK, AKs
                         {
-                            return PlayerAction.Raise(context.SmallBlind * (20 - 0));
+                            return PlayerAction.Raise(context.SmallBlind * 20 - raiseCoeff);
                         }
                         else if (handValue >= powerful)
                         {
-                            return PlayerAction.Raise(context.SmallBlind * (16 - 0));
+                            return PlayerAction.Raise(context.SmallBlind * 16 - raiseCoeff);
                         }
                         else if (handValue >= awful) // that makes around 74% of all possible hands
                         {
@@ -82,7 +83,7 @@
                                 return PlayerAction.CheckOrCall();
                             }
 
-                            return PlayerAction.Raise(context.SmallBlind * (6 - 0));
+                            return PlayerAction.Raise(context.SmallBlind * 6 - raiseCoeff);
                         }
                         else
                         {
@@ -96,7 +97,7 @@
                         {
                             if (handValue >= extreme) // cards like AA, KK, AKs
                             {
-                                return PlayerAction.Raise(context.SmallBlind * (16 - 0));
+                                return PlayerAction.Raise(context.SmallBlind * 16 - raiseCoeff);
                             }
                             else if (handValue >= powerful)
                             {
@@ -119,7 +120,7 @@
                         {
                             if (handValue >= extreme) // cards like AA, KK, AKs
                             {
-                                return PlayerAction.Raise(context.SmallBlind * (20 - 0));
+                                return PlayerAction.Raise(context.SmallBlind * 20 - raiseCoeff);
                             }
                             else if (handValue >= powerful)
                             {
@@ -130,7 +131,7 @@
                                 }
                                 else
                                 {
-                                    return PlayerAction.Raise(context.SmallBlind * (12 - 0));
+                                    return PlayerAction.Raise(context.SmallBlind * 12 - raiseCoeff);
                                 }
                             }
                             else if (handValue >= normal)

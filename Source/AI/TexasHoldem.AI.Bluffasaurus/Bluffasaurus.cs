@@ -41,16 +41,6 @@
                     {
                         return PlayerAction.Raise(context.SmallBlind * 12);
                     }
-                    else if (handValue >= weak)
-                    {
-                        // can be further optimized
-                        if (context.SmallBlind > context.MoneyLeft / 40)
-                        {
-                            return PlayerAction.CheckOrCall();
-                        }
-
-                        return PlayerAction.Raise(context.SmallBlind * 10);
-                    }
                     else if (handValue >= awful) // that makes around 74% of all possible hands
                     {
                         // can be further optimized
@@ -59,7 +49,7 @@
                             return PlayerAction.CheckOrCall();
                         }
 
-                        return PlayerAction.Raise(context.SmallBlind * 8);
+                        return PlayerAction.Raise(context.SmallBlind * 10);
                     }
                     else if (handValue > lowerLimit && context.SmallBlind < context.MoneyLeft / 40)
                     {
@@ -83,10 +73,6 @@
                         else if (handValue >= powerful)
                         {
                             return PlayerAction.Raise(context.SmallBlind * 16);
-                        }
-                        else if (handValue >= normal)
-                        {
-                            return PlayerAction.Raise(context.SmallBlind * 10);
                         }
                         else if (handValue >= awful) // that makes around 74% of all possible hands
                         {
@@ -113,16 +99,6 @@
                                 return PlayerAction.Raise(context.SmallBlind * 16);
                             }
                             else if (handValue >= powerful)
-                            {
-                                // we have some more money and want to wait for a better shot
-                                if (context.MoneyToCall > context.MoneyLeft / 3 && context.MoneyToCall > context.SmallBlind * 6)
-                                {
-                                    return PlayerAction.Fold();
-                                }
-
-                                return PlayerAction.Raise(context.SmallBlind * 8);
-                            }
-                            else if (handValue >= normal)
                             {
                                 // we have some more money and want to wait for a better shot
                                 if (context.MoneyToCall > context.MoneyLeft / 4 && context.MoneyToCall > context.SmallBlind * 6)
