@@ -12,7 +12,7 @@ namespace TexasHoldem.Tests.GameSimulations.GameSimulators
 
     public class BluffasaurusVsSmartPlayerSimulator : BaseGameSimulator
     {
-        private readonly IPlayer firstPlayer = new AI.Bluffasaurus.Bluffasaurus();
+        private readonly IPlayer firstPlayer = new AI.SmartPlayer.BluffasaurusNormal();
         private readonly IPlayer secondPlayer = new SmartPlayer();
 
         protected override IPlayer GetFirstPlayer()

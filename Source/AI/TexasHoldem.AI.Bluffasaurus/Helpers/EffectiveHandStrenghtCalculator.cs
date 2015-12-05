@@ -112,18 +112,18 @@
 
             if (k == 0)
             {
-                // MONTE CARLO -> we calculate only around 10 000 cases
+                // MONTE CARLO -> we calculate only around 5 000 cases
                 switch (variation.Length)
                 {
                     case 3:
-                        if (rand.Next(0, int.MaxValue) % 5 == 0)
+                        if (rand.Next(0, int.MaxValue) % 10 == 0) //5
                         {
                             DetermineWhoWinsHand(playerHand, cardsOnTable, variation);
                         }
 
                         break;
                     case 4:
-                        if (rand.Next(0, int.MaxValue) % 107 == 0)
+                        if (rand.Next(0, int.MaxValue) % 200 == 0) //107
                         {
                             DetermineWhoWinsHand(playerHand, cardsOnTable, variation);
                         }

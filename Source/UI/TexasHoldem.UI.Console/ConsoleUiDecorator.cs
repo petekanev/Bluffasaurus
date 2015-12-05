@@ -58,6 +58,8 @@
             this.UpdateCommonRow(context.CurrentPot);
             ConsoleHelper.WriteOnConsole(this.row + 1, 2, context.MoneyLeft + "   ");
 
+            // HEREEEEEEEEEEeeee
+            System.Threading.Thread.Sleep(1000);
             var action = base.GetTurn(context);
 
             ConsoleHelper.WriteOnConsole(this.row + 2, 2, new string(' ', this.width - 3));

@@ -62,6 +62,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="GameSimulators\BaseGameSimulator.cs" />
+    <Compile Include="GameSimulators\BluffasaurusVsAlwaysRaisePlayerSimulator.cs" />
     <Compile Include="GameSimulators\BluffasaurusVsBluffasaurusNormal.cs" />
     <Compile Include="GameSimulators\BluffasaurusVsNotASmartPlayerSimulator.cs" />
     <Compile Include="GameSimulators\BluffasaurusVsSmartPlayerSimulator.cs" />

@@ -2,10 +2,10 @@
 {
     using Logic.Players;
 
-    public class BluffasaurusVsBluffasaurusNormal : BaseGameSimulator
+    public class BluffasaurusVsAlwaysRaisePlayerSimulator : BaseGameSimulator
     {
         private readonly IPlayer firstPlayer = new AI.Bluffasaurus.Bluffasaurus();
-        private readonly IPlayer secondPlayer = new AI.Bluffasaurus.BluffasaurusOpen();
+        private readonly IPlayer secondPlayer = new AI.DummyPlayer.AlwaysRaiseDummyPlayer();
 
         protected override IPlayer GetFirstPlayer()
         {
