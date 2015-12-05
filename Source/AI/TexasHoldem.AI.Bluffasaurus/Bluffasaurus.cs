@@ -157,6 +157,11 @@
 
                 var ehs = EffectiveHandStrenghtCalculator.CalculateEHS(hand, this.CommunityCards);
 
+                if (context.MoneyLeft == 0)
+                {
+                    return PlayerAction.CheckOrCall();
+                }
+
                 if (ehs < 0.3)
                 {
                     if (context.MoneyToCall <= context.MoneyLeft / 200)
@@ -244,7 +249,7 @@
                     return PlayerAction.Raise(moneyToBet);
                 }
 
-                //return PlayerAction.CheckOrCall();
+                return PlayerAction.CheckOrCall();
             }
         }
     }
