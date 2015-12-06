@@ -10,7 +10,7 @@
 
         public override PlayerAction GetTurn(GetTurnContext context)
         {
-            return PlayerAction.Raise(2000);
+            return PlayerAction.Raise(context.SmallBlind * 4);
         }
     }
 }

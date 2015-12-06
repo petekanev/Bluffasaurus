@@ -98,57 +98,6 @@
             }
         }
 
-        private static void GenerateVariations(int k, IList<Card> set, Card[] variation = null, bool[] used = null)
-        {
-            if (variation == null)
-            {
-                variation = new Card[k];
-            }
-
-            if (used == null)
-            {
-                used = new bool[set.Count];
-            }
-
-            if (k == 0)
-            {
-                // MONTE CARLO -> we calculate only around 5 000 cases
-                switch (variation.Length)
-                {
-                    case 3:
-                        if (rand.Next(0, int.MaxValue) % 10 == 0) //5
-                        {
-                            DetermineWhoWinsHand(playerHand, cardsOnTable, variation);
-                        }
-
-                        break;
-                    case 4:
-                        if (rand.Next(0, int.MaxValue) % 200 == 0) //107
-                        {
-                            DetermineWhoWinsHand(playerHand, cardsOnTable, variation);
-                        }
-
-                        break;
-                    default:
-                        DetermineWhoWinsHand(playerHand, cardsOnTable, variation);
-                        break;
-                }
-
-                return;
-            }
-
-            for (int i = 0; i < set.Count; i++)
-            {
-                if (!used[i])
-                {
-                    variation[k - 1] = set[i];
-                    used[i] = true;
-                    GenerateVariations(k - 1, set, variation, used);
-                    used[i] = false;
-                }
-            }
-        }
-
         private static void GenerateCombinations(int k, int startingPosition, IList<Card> set, Card[] combination = null)
         {
             if (combination == null)

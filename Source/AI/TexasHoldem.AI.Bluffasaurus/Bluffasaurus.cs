@@ -153,18 +153,27 @@
                     }
                 }
             }
+            else if (context.RoundType == GameRoundType.Flop)
+            {
+                if (context.MoneyLeft == 0)
+                {
+                    return PlayerAction.CheckOrCall();
+                }
+
+                return PlayerAction.CheckOrCall();
+            }
             else
             {
+                if (context.MoneyLeft == 0)
+                {
+                    return PlayerAction.CheckOrCall();
+                }
+
                 var hand = new List<Card>();
                 hand.Add(this.FirstCard);
                 hand.Add(this.SecondCard);
 
                 var ehs = EffectiveHandStrenghtCalculator.CalculateEHS(hand, this.CommunityCards);
-
-                if (context.MoneyLeft == 0)
-                {
-                    return PlayerAction.CheckOrCall();
-                }
 
                 if (ehs < 0.3)
                 {
