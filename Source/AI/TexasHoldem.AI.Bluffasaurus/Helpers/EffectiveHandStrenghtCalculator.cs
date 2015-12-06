@@ -53,7 +53,7 @@
             {
                 GenerateCombinations(7 - cardsOnTable.Count, 0, deck);
                 lastHandAndCardsOnTable = handAndCardsOnTable;
-                lastEHS = (double)ahead / (ahead + tied + behind);
+                lastEHS = (double)((ahead + (tied / 2)) / (ahead + tied + behind));
             }
 
             return lastEHS;
@@ -131,7 +131,7 @@
                 switch (set.Count)
                 {
                     case 3:
-                        if (rand.Next(0, int.MaxValue) % 9 == 0)
+                        if (rand.Next(0, int.MaxValue) % 18 == 0)
                         {
                             var index1 = set.IndexOf(combination[0]);
                             Swap(0, index1, set.ToArray());

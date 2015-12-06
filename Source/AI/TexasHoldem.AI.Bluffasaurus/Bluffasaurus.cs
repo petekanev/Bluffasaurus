@@ -162,7 +162,7 @@
 
                 return PlayerAction.CheckOrCall();
             }
-            else
+            else // turn / river
             {
                 if (context.MoneyLeft == 0)
                 {

@@ -46,19 +46,4 @@ if(window.location.pathname.match(/\/Battles\/Info\/\d+/)) {
 		console.log("Average hands played when won by Second: " + result.Second.AverageHandsPer.toFixed(2));
 	// return result;
 }());
-} else if(window.location.pathname.match(/\/Teams\/Info\/\d+/).length > 0) {
-	setTimeout(function()
-		{ alert("There was an update"); 
-		var body = document.getElementsByTagName("body")[0].innerText;
-
-		location.reload(true);
-
-		var newbody = document.getElementsByTagName("body")[0].innerText;
-
-		if(newbody !== body) {
-        var popup  = $window.open("about:blank", "_blank"); // the about:blank is to please Chrome, and _blank to please Firefox
-        popup.location = 'https://www.youtube.com/watch?v=2fngvQS_PmQ';
-    }
-}, 30000);
-
 }
