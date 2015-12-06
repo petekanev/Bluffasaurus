@@ -10,13 +10,14 @@
         {
             //SimulateGames(new BluffasaurusVsBluffasaurusNormal());
             SimulateGames(new BluffasaurusVsAlwaysRaisePlayerSimulator());
+            //SimulateGames(new BluffasaurusVsNotASmartPlayerSimulator());
         }
 
         private static void SimulateGames(IGameSimulator gameSimulator)
         {
             Console.WriteLine($"Running {gameSimulator.GetType().Name}...");
 
-            var simulationResult = gameSimulator.Simulate(1000);
+            var simulationResult = gameSimulator.Simulate(100);
 
             Console.WriteLine(simulationResult.SimulationDuration);
             Console.WriteLine($"Total games: {simulationResult.FirstPlayerWins:0,0} - {simulationResult.SecondPlayerWins:0,0}");

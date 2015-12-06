@@ -234,7 +234,7 @@
                                     // money are a lot and we fold
                                     if (context.MoneyToCall > context.MoneyLeft / 3 && context.MoneyLeft > 300)
                                     {
-                                        return PlayerAction.Fold();
+                                        return this.Fold();
                                     }
                                     else
                                     {
@@ -332,7 +332,7 @@
                     }
                     else
                     {
-                        this.Fold();
+                        return this.Fold();
                     }
                 }
                 else if (ehs < 0.5)
@@ -343,7 +343,7 @@
                     }
                     else
                     {
-                        this.Fold();
+                        return this.Fold();
                     }
                 }
                 else if (ehs < 0.75)
@@ -367,7 +367,7 @@
                     }
                     else
                     {
-                        this.Fold();
+                        return this.Fold();
                     }
                 }
                 else if (ehs < 0.9)
@@ -396,7 +396,7 @@
                     }
                     else
                     {
-                        this.Fold();
+                        return this.Fold();
                     }
                 }
                 else
@@ -437,7 +437,7 @@
                     }
                     else
                     {
-                        this.Fold();
+                        return this.Fold();
                     }
                 }
                 else if (ehs < 0.5)
@@ -448,7 +448,7 @@
                     }
                     else
                     {
-                        this.Fold();
+                        return this.Fold();
                     }
                 }
                 else if (ehs < 0.75)
@@ -472,7 +472,7 @@
                     }
                     else
                     {
-                        this.Fold();
+                        return this.Fold();
                     }
                 }
                 else if (ehs < 0.9)
@@ -501,7 +501,7 @@
                     }
                     else
                     {
-                        this.Fold();
+                        return this.Fold();
                     }
                 }
                 else

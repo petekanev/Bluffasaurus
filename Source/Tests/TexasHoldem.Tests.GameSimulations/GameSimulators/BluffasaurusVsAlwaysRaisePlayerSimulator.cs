@@ -5,7 +5,7 @@
     public class BluffasaurusVsAlwaysRaisePlayerSimulator : BaseGameSimulator
     {
         private readonly IPlayer firstPlayer = new AI.Bluffasaurus.Bluffasaurus();
-        private readonly IPlayer secondPlayer = new AI.DummyPlayer.AlwaysRaiseDummyPlayer();
+        private readonly IPlayer secondPlayer = new AI.DummyPlayer.ConsolePlayer();
 
         protected override IPlayer GetFirstPlayer()
         {
