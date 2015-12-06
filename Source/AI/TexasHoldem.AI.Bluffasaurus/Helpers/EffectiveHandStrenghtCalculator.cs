@@ -127,22 +127,11 @@
 
             if (k == 0)
             {
-                // MONTE CARLO -> we calculate only around 10 000 cases
+                // MONTE CARLO -> we calculate only around 2500 cases
                 switch (set.Count)
                 {
                     case 3:
-                        if (rand.Next(0, int.MaxValue) % 18 == 0)
-                        {
-                            var index1 = set.IndexOf(combination[0]);
-                            Swap(0, index1, set.ToArray());
-                            var index2 = set.IndexOf(combination[1]);
-                            Swap(1, index2, set.ToArray());
-                            DetermineWhoWinsHand(playerHand, cardsOnTable, set.ToArray());
-                        }
-
-                        break;
-                    case 4:
-                        if (rand.Next(0, int.MaxValue) % 420 == 0)
+                        if (rand.Next(0, int.MaxValue) % 22 == 0)
                         {
                             var index1 = set.IndexOf(combination[0]);
                             Swap(0, index1, set.ToArray());

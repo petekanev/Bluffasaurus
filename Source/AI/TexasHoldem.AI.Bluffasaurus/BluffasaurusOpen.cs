@@ -17,8 +17,7 @@
             if (context.RoundType == GameRoundType.PreFlop)
             {
                 var handValue = HandStrengthValuationBluffasaurus.PreFlop(this.FirstCard, this.SecondCard);
-                var optimalValueCoeff = 2;
-                var raiseCoeff = 0 * context.SmallBlind;
+                var optimalValueCoeff = 4;
 
                 var extreme = 64 - optimalValueCoeff;
                 var powerful = 60 - optimalValueCoeff;
@@ -32,15 +31,15 @@
                 {
                     if (handValue >= extreme)
                     {
-                        return PlayerAction.Raise(context.SmallBlind * 20 - raiseCoeff);
+                        return PlayerAction.Raise(context.SmallBlind * 20);
                     }
                     else if (handValue >= powerful)
                     {
-                        return PlayerAction.Raise(context.SmallBlind * 16 - raiseCoeff);
+                        return PlayerAction.Raise(context.SmallBlind * 16);
                     }
                     else if (handValue >= normal)
                     {
-                        return PlayerAction.Raise(context.SmallBlind * 12 - raiseCoeff);
+                        return PlayerAction.Raise(context.SmallBlind * 12);
                     }
                     else if (handValue >= awful) // that makes around 74% of all possible hands
                     {
@@ -50,7 +49,7 @@
                             return PlayerAction.CheckOrCall();
                         }
 
-                        return PlayerAction.Raise(context.SmallBlind * 10 - raiseCoeff);
+                        return PlayerAction.Raise(context.SmallBlind * 10);
                     }
                     else if (handValue > lowerLimit && context.SmallBlind < context.MoneyLeft / 40)
                     {
@@ -69,11 +68,11 @@
                     {
                         if (handValue >= extreme) // cards like AA, KK, AKs
                         {
-                            return PlayerAction.Raise(context.SmallBlind * 20 - raiseCoeff);
+                            return PlayerAction.Raise(context.SmallBlind * 20);
                         }
                         else if (handValue >= powerful)
                         {
-                            return PlayerAction.Raise(context.SmallBlind * 16 - raiseCoeff);
+                            return PlayerAction.Raise(context.SmallBlind * 16);
                         }
                         else if (handValue >= awful) // that makes around 74% of all possible hands
                         {
@@ -83,7 +82,7 @@
                                 return PlayerAction.CheckOrCall();
                             }
 
-                            return PlayerAction.Raise(context.SmallBlind * 6 - raiseCoeff);
+                            return PlayerAction.Raise(context.SmallBlind * 6);
                         }
                         else
                         {
@@ -97,7 +96,7 @@
                         {
                             if (handValue >= extreme) // cards like AA, KK, AKs
                             {
-                                return PlayerAction.Raise(context.SmallBlind * 16 - raiseCoeff);
+                                return PlayerAction.Raise(context.SmallBlind * 16);
                             }
                             else if (handValue >= powerful)
                             {
@@ -120,7 +119,7 @@
                         {
                             if (handValue >= extreme) // cards like AA, KK, AKs
                             {
-                                return PlayerAction.Raise(context.SmallBlind * 20 - raiseCoeff);
+                                return PlayerAction.Raise(context.SmallBlind * 20);
                             }
                             else if (handValue >= powerful)
                             {
@@ -131,7 +130,7 @@
                                 }
                                 else
                                 {
-                                    return PlayerAction.Raise(context.SmallBlind * 12 - raiseCoeff);
+                                    return PlayerAction.Raise(context.SmallBlind * 12);
                                 }
                             }
                             else if (handValue >= normal)
@@ -154,106 +153,113 @@
                     }
                 }
             }
-            else
-            {
-                var hand = new List<Card>();
-                hand.Add(this.FirstCard);
-                hand.Add(this.SecondCard);
+            //else if (context.RoundType == GameRoundType.Flop)
+            //{
+            //    return PlayerAction.CheckOrCall();
+            //}
+            //else
+            //{
+            //    var hand = new List<Card>();
+            //    hand.Add(this.FirstCard);
+            //    hand.Add(this.SecondCard);
 
-                var ehs = EffectiveHandStrenghtCalculator.CalculateEHS(hand, this.CommunityCards);
+            //    var ehs = EffectiveHandStrenghtCalculator.CalculateEHS(hand, this.CommunityCards);
 
-                if (context.MoneyLeft == 0)
-                {
-                    return PlayerAction.CheckOrCall();
-                }
+            //    if (context.MoneyLeft == 0)
+            //    {
+            //        return PlayerAction.CheckOrCall();
+            //    }
 
-                if (ehs < 0.3)
-                {
-                    if (context.MoneyToCall <= context.MoneyLeft / 200)
-                    {
-                        return PlayerAction.CheckOrCall();
-                    }
-                    else
-                    {
-                        return PlayerAction.Fold();
-                    }
-                }
-                else if (ehs < 0.5)
-                {
-                    if (context.MoneyToCall <= context.MoneyLeft / 40)
-                    {
-                        return PlayerAction.CheckOrCall();
-                    }
-                    else
-                    {
-                        return PlayerAction.Fold();
-                    }
-                }
-                else if (ehs < 0.75)
-                {
-                    if (context.MoneyToCall == 0)
-                    {
-                        var currentPot = context.CurrentPot;
-                        int moneyToBet = (int)(currentPot * 0.85);
-                        return PlayerAction.Raise(moneyToBet);
-                    }
-                    else if (context.MoneyToCall < context.MoneyLeft / 20 || context.MoneyToCall < 50)
-                    {
-                        if (context.MoneyToCall < context.CurrentPot * 0.85 && context.MyMoneyInTheRound == 0)
-                        {
-                            return PlayerAction.Raise((int)(context.CurrentPot * 0.85) - context.MoneyToCall + 1);
-                        }
-                        else
-                        {
-                            return PlayerAction.CheckOrCall();
-                        }
-                    }
-                    else
-                    {
-                        return PlayerAction.Fold();
-                    }
-                }
-                else if (ehs < 0.9)
-                {
-                    if (context.MoneyToCall == 0)
-                    {
-                        var currentPot = context.CurrentPot;
-                        int moneyToBet = (int)(currentPot * 0.9);
-                        if (moneyToBet < 20)
-                        {
-                            moneyToBet = 20;
-                        }
+            //    if (ehs < 0.3)
+            //    {
+            //        if (context.MoneyToCall <= context.MoneyLeft / 200)
+            //        {
+            //            return PlayerAction.CheckOrCall();
+            //        }
+            //        else
+            //        {
+            //            return PlayerAction.Fold();
+            //        }
+            //    }
+            //    else if (ehs < 0.5)
+            //    {
+            //        if (context.MoneyToCall <= context.MoneyLeft / 40)
+            //        {
+            //            return PlayerAction.CheckOrCall();
+            //        }
+            //        else
+            //        {
+            //            return PlayerAction.Fold();
+            //        }
+            //    }
+            //    else if (ehs < 0.75)
+            //    {
+            //        if (context.MoneyToCall == 0)
+            //        {
+            //            var currentPot = context.CurrentPot;
+            //            int moneyToBet = (int)(currentPot * 0.85);
+            //            return PlayerAction.Raise(moneyToBet);
+            //        }
+            //        else if (context.MoneyToCall < context.MoneyLeft / 20 || context.MoneyToCall < 50)
+            //        {
+            //            if (context.MoneyToCall < context.CurrentPot * 0.85 && context.MyMoneyInTheRound == 0)
+            //            {
+            //                return PlayerAction.Raise((int)(context.CurrentPot * 0.85) - context.MoneyToCall + 1);
+            //            }
+            //            else
+            //            {
+            //                return PlayerAction.CheckOrCall();
+            //            }
+            //        }
+            //        else
+            //        {
+            //            return PlayerAction.Fold();
+            //        }
+            //    }
+            //    else if (ehs < 0.9)
+            //    {
+            //        if (context.MoneyToCall == 0)
+            //        {
+            //            var currentPot = context.CurrentPot;
+            //            int moneyToBet = (int)(currentPot * 0.9);
+            //            if (moneyToBet < 20)
+            //            {
+            //                moneyToBet = 20;
+            //            }
 
-                        return PlayerAction.Raise(moneyToBet);
-                    }
-                    else if (context.MoneyToCall < context.MoneyLeft / 3 || context.MoneyToCall < 150)
-                    {
-                        if (context.MoneyToCall < context.CurrentPot * 0.9 && context.MyMoneyInTheRound == 0)
-                        {
-                            return PlayerAction.Raise((int)(context.CurrentPot * 0.9) - context.MoneyToCall + 1);
-                        }
-                        else
-                        {
-                            return PlayerAction.CheckOrCall();
-                        }
-                    }
-                    else
-                    {
-                        return PlayerAction.Fold();
-                    }
-                }
-                else
-                {
-                    var currentPot = context.CurrentPot;
-                    int moneyToBet = currentPot;
-                    if (moneyToBet < 20)
-                    {
-                        moneyToBet = 20;
-                    }
+            //            return PlayerAction.Raise(moneyToBet);
+            //        }
+            //        else if (context.MoneyToCall < context.MoneyLeft / 3 || context.MoneyToCall < 150)
+            //        {
+            //            if (context.MoneyToCall < context.CurrentPot * 0.9 && context.MyMoneyInTheRound == 0)
+            //            {
+            //                return PlayerAction.Raise((int)(context.CurrentPot * 0.9) - context.MoneyToCall + 1);
+            //            }
+            //            else
+            //            {
+            //                return PlayerAction.CheckOrCall();
+            //            }
+            //        }
+            //        else
+            //        {
+            //            return PlayerAction.Fold();
+            //        }
+            //    }
+            //    else
+            //    {
+            //        var currentPot = context.CurrentPot;
+            //        int moneyToBet = currentPot;
+            //        if (moneyToBet < 20)
+            //        {
+            //            moneyToBet = 20;
+            //        }
 
-                    return PlayerAction.Raise(moneyToBet);
-                }
-            }
+            //        return PlayerAction.Raise(moneyToBet);
+            //    }
+
+            //}
+
+            return PlayerAction.CheckOrCall();
         }
     }
 }

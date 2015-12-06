@@ -71,7 +71,6 @@
                     {
                         return this.Fold();
                     }
-
                 }
                 else  // we are on big blind or opp has raised
                 {
@@ -115,7 +114,7 @@
                                 // we have some more money and want to wait for a better shot
                                 if (context.MoneyToCall > context.MoneyLeft / 4 && context.MoneyToCall > context.SmallBlind * 6)
                                 {
-                                    this.Fold();
+                                    return this.Fold();
                                 }
                                 else
                                 {
@@ -124,7 +123,7 @@
                             }
                             else
                             {
-                                this.Fold();
+                                return this.Fold();
                             }
                         }
                         else // opponent has not raised a lot
@@ -159,7 +158,7 @@
                             }
                             else
                             {
-                                this.Fold();
+                                return this.Fold();
                             }
                         }
                     }
@@ -518,6 +517,7 @@
                 }
             }
             #endregion
+
             return PlayerAction.CheckOrCall(); // It should never reach this point
         }
 
