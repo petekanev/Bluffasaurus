@@ -35,30 +35,6 @@
                                  : StartingHandRecommendations[MaxCardTypeValue - (int)firstCard.Type, MaxCardTypeValue - (int)secondCard.Type]);
 
             return value;
-
-            //switch (value)
-            //{
-            //    case 1:
-            //        return CardValuationTypeForBluffasaurus.group9;
-            //    case 2:
-            //        return CardValuationTypeForBluffasaurus.group8;
-            //    case 3:
-            //        return CardValuationTypeForBluffasaurus.group7;
-            //    case 4:
-            //        return CardValuationTypeForBluffasaurus.group6;
-            //    case 5:
-            //        return CardValuationTypeForBluffasaurus.group5;
-            //    case 6:
-            //        return CardValuationTypeForBluffasaurus.group4;
-            //    case 7:
-            //        return CardValuationTypeForBluffasaurus.group3;
-            //    case 8:
-            //        return CardValuationTypeForBluffasaurus.group2;
-            //    case 9:
-            //        return CardValuationTypeForBluffasaurus.group1;
-            //    default:
-            //        return CardValuationTypeForBluffasaurus.group1;
-            //}
         }
     }
 }
