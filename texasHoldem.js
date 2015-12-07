@@ -20,7 +20,7 @@ if(window.location.pathname.match(/\/Battles\/Info\/\d+/)) {
 			var winner = cols[1].innerText;
 
 			var cards = cols[2].innerText;
-			cards = cards.match(/\W+[0-9]+/)[0].trim();
+			cards = cards.match(/[0-9]+ hands/)[0].replace(" hands", "");
 
 			if (winner === "First") {
 				result["First"].HandsPlayed += cards * 1;
