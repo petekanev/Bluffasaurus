@@ -45,7 +45,7 @@ More information of the usage within the Bot's logic you can find in the <b>Turn
 <br/><br/>
 ## Strategy
 ### Pre-Flop
-  * Hand evaluation: using Slansky hand groups. ( [*More information*](https://en.wikipedia.org/wiki/Texas_hold_%27em_starting_hands) )
+  * Hand evaluation: using EHS percentage ( [*More information*](http://www.math.vu.nl/~sbhulai/theses/werkstuk-alons.pdf) )
   * Betting: Based on 
  	* hand evalutaion
  	* position on the table (i.e if the bot is on small or big blind)
