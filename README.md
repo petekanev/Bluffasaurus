@@ -52,7 +52,7 @@ More information of the usage within the Bot's logic you can find in the <b>Turn
  	* amount to call (converted in f(blind ) )
  	
    
-Reise | Check / Call
+Raise | Check / Call
 ------------ | -------------
 <b>&fnof;(blind)<b/> | <b>&fnof;(blind, moneyToCall, leftMoney)</b>
  Popular strategy within the pre-flop is <br/>to bet from <b>3x</b> to <b>4x</b> the SB. <br/>Bluffasaurus Poker Bot is reising <br/>in the range <b>6x</b> up to <b>20x</b>. | Playing 75%-85% of the cards <br/>depending on the position on the table.
@@ -71,7 +71,7 @@ Using EHS + Monte Carlo with ~ 2000 combinations | using the chart of the (absol
     * Is the pair on the table
     * If not, does the bot holds the highest possible pair for the flop or is it higher than TT
  
- Reise | Check / Call
+ Raise | Check / Call
 ------------ | -------------
 <b>&fnof;(blind, pot)</b> |  <b>&fnof;(blind, moneyToCall, leftMoney)</b>
 Reising in the range <b>8x</b> up to <b>30x</b> the SB. | -
