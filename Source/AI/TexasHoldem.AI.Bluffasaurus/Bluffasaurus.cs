@@ -169,6 +169,8 @@
             #region Flop
             else if (context.RoundType == GameRoundType.Flop)
             {
+                var raiseCoeff = context.SmallBlind * 0;
+
                 if (context.MoneyLeft == 0)
                 {
                     return PlayerAction.CheckOrCall();
@@ -181,7 +183,7 @@
                 {
                     if (flopCardStrength >= 2000)
                     {
-                        return PlayerAction.Raise(context.SmallBlind * 16);
+                        return PlayerAction.Raise(context.SmallBlind * 8 + raiseCoeff);
                     }
                     else if (flopCardStrength >= 1000)
                     {
@@ -195,11 +197,11 @@
                         {
                             if (pairInfo >= 11)
                             {
-                                return PlayerAction.Raise(context.SmallBlind * 12);
+                                return PlayerAction.Raise(context.SmallBlind * 12 + raiseCoeff);
                             }
                             else
                             {
-                                return PlayerAction.Raise(context.SmallBlind * 8);
+                                return PlayerAction.Raise(context.SmallBlind * 8 + raiseCoeff);
                             }
                         }
                     }
@@ -216,9 +218,13 @@
                         // a lot
                         if (context.MoneyToCall > context.CurrentPot - context.MoneyToCall && context.MoneyToCall > 50)
                         {
+                            if (flopCardStrength >= 3000)
+                            {
+                                return PlayerAction.Raise(context.SmallBlind * 30 + raiseCoeff);
+                            }
                             if (flopCardStrength >= 2000)
                             {
-                                return PlayerAction.Raise(context.MoneyToCall * 2);
+                                return PlayerAction.Raise(context.SmallBlind * 10 + raiseCoeff);
                             }
                             else if (flopCardStrength >= 1000)
                             {
@@ -258,7 +264,7 @@
                         {
                             if (flopCardStrength >= 2000)
                             {
-                                return PlayerAction.Raise(context.MoneyToCall * 3);
+                                return PlayerAction.Raise(context.SmallBlind * 8 + raiseCoeff);
                             }
                             else if (flopCardStrength >= 1000)
                             {
@@ -272,7 +278,7 @@
                                 {
                                     if (pairInfo >= 11)
                                     {
-                                        return PlayerAction.Raise(context.SmallBlind * 8);
+                                        return PlayerAction.Raise(context.SmallBlind * 8 + raiseCoeff);
                                     }
                                     else
                                     {
@@ -297,11 +303,11 @@
                     {
                         if (flopCardStrength >= 2000)
                         {
-                            return PlayerAction.Raise(context.SmallBlind * 8);
+                            return PlayerAction.Raise(context.SmallBlind * 8 + raiseCoeff);
                         }
                         else if (flopCardStrength >= 1000)
                         {
-                            return PlayerAction.Raise(context.SmallBlind * 16);
+                            return PlayerAction.Raise(context.SmallBlind * 16 + raiseCoeff);
                         }
 
                         return PlayerAction.CheckOrCall();
@@ -311,209 +317,147 @@
             #endregion
 
             #region Turn
-            else if (context.RoundType == GameRoundType.Turn)
+            else if (context.RoundType == GameRoundType.Turn || context.RoundType == GameRoundType.River)
             {
-                if (context.MoneyLeft == 0)
+                if (context.RoundType == GameRoundType.River)
                 {
-                    return PlayerAction.CheckOrCall();
+                    inPosition = false;
                 }
-
-                var hand = new List<Card>();
-                hand.Add(this.FirstCard);
-                hand.Add(this.SecondCard);
-
-                var ehs = EffectiveHandStrenghtCalculator.CalculateEHS(hand, this.CommunityCards);
-
-                if (ehs < 0.3)
-                {
-                    if (context.MoneyToCall <= context.MoneyLeft / 200)
-                    {
-                        return PlayerAction.CheckOrCall();
-                    }
-                    else
-                    {
-                        return this.Fold();
-                    }
-                }
-                else if (ehs < 0.5)
-                {
-                    if (context.MoneyToCall <= context.MoneyLeft / 40)
-                    {
-                        return PlayerAction.CheckOrCall();
-                    }
-                    else
-                    {
-                        return this.Fold();
-                    }
-                }
-                else if (ehs < 0.75)
-                {
-                    if (context.MoneyToCall == 0)
-                    {
-                        var currentPot = context.CurrentPot;
-                        int moneyToBet = (int)(currentPot * 0.85);
-                        return PlayerAction.Raise(moneyToBet);
-                    }
-                    else if (context.MoneyToCall < context.MoneyLeft / 20 || context.MoneyToCall < 50)
-                    {
-                        if (context.MoneyToCall < context.CurrentPot * 0.85 && context.MyMoneyInTheRound == 0)
-                        {
-                            return PlayerAction.Raise((int)(context.CurrentPot * 0.85) - context.MoneyToCall + 1);
-                        }
-                        else
-                        {
-                            return PlayerAction.CheckOrCall();
-                        }
-                    }
-                    else
-                    {
-                        return this.Fold();
-                    }
-                }
-                else if (ehs < 0.9)
-                {
-                    if (context.MoneyToCall == 0)
-                    {
-                        var currentPot = context.CurrentPot;
-                        int moneyToBet = (int)(currentPot * 0.9);
-                        if (moneyToBet < 20)
-                        {
-                            moneyToBet = 20;
-                        }
-
-                        return PlayerAction.Raise(moneyToBet);
-                    }
-                    else if (context.MoneyToCall < context.MoneyLeft / 3 || context.MoneyToCall < 150)
-                    {
-                        if (context.MoneyToCall < context.CurrentPot * 0.9 && context.MyMoneyInTheRound == 0)
-                        {
-                            return PlayerAction.Raise((int)(context.CurrentPot * 0.9) - context.MoneyToCall + 1);
-                        }
-                        else
-                        {
-                            return PlayerAction.CheckOrCall();
-                        }
-                    }
-                    else
-                    {
-                        return this.Fold();
-                    }
-                }
-                else
-                {
-                    var currentPot = context.CurrentPot;
-                    int moneyToBet = currentPot;
-                    if (moneyToBet < 20)
-                    {
-                        moneyToBet = 20;
-                    }
-
-                    return PlayerAction.Raise(moneyToBet);
-                }
-            }
-            #endregion
-
-            #region River
-            else if (context.RoundType == GameRoundType.River)
-            {
-                inPosition = false;
 
                 if (context.MoneyLeft == 0)
                 {
                     return PlayerAction.CheckOrCall();
                 }
 
-                var hand = new List<Card>();
-                hand.Add(this.FirstCard);
-                hand.Add(this.SecondCard);
+                var flopCardStrength = CardsStrengthEvaluation.RateCards
+                    (new List<Card> { FirstCard, SecondCard, CommunityCards.ElementAt(0), CommunityCards.ElementAt(1), CommunityCards.ElementAt(2) });
 
-                var ehs = EffectiveHandStrenghtCalculator.CalculateEHS(hand, this.CommunityCards);
-
-                if (ehs < 0.3)
+                if (flopCardStrength >= 2000)
                 {
-                    if (context.MoneyToCall <= context.MoneyLeft / 200)
-                    {
-                        return PlayerAction.CheckOrCall();
-                    }
-                    else
-                    {
-                        return this.Fold();
-                    }
-                }
-                else if (ehs < 0.5)
-                {
-                    if (context.MoneyToCall <= context.MoneyLeft / 40)
-                    {
-                        return PlayerAction.CheckOrCall();
-                    }
-                    else
-                    {
-                        return this.Fold();
-                    }
-                }
-                else if (ehs < 0.75)
-                {
-                    if (context.MoneyToCall == 0)
-                    {
-                        var currentPot = context.CurrentPot;
-                        int moneyToBet = (int)(currentPot * 0.85);
-                        return PlayerAction.Raise(moneyToBet);
-                    }
-                    else if (context.MoneyToCall < context.MoneyLeft / 20 || context.MoneyToCall < 50)
-                    {
-                        if (context.MoneyToCall < context.CurrentPot * 0.85 && context.MyMoneyInTheRound == 0)
-                        {
-                            return PlayerAction.Raise((int)(context.CurrentPot * 0.85) - context.MoneyToCall + 1);
-                        }
-                        else
-                        {
-                            return PlayerAction.CheckOrCall();
-                        }
-                    }
-                    else
-                    {
-                        return this.Fold();
-                    }
-                }
-                else if (ehs < 0.9)
-                {
-                    if (context.MoneyToCall == 0)
-                    {
-                        var currentPot = context.CurrentPot;
-                        int moneyToBet = (int)(currentPot * 0.9);
-                        if (moneyToBet < 20)
-                        {
-                            moneyToBet = 20;
-                        }
-
-                        return PlayerAction.Raise(moneyToBet);
-                    }
-                    else if (context.MoneyToCall < context.MoneyLeft / 3 || context.MoneyToCall < 150)
-                    {
-                        if (context.MoneyToCall < context.CurrentPot * 0.9 && context.MyMoneyInTheRound == 0)
-                        {
-                            return PlayerAction.Raise((int)(context.CurrentPot * 0.9) - context.MoneyToCall + 1);
-                        }
-                        else
-                        {
-                            return PlayerAction.CheckOrCall();
-                        }
-                    }
-                    else
-                    {
-                        return this.Fold();
-                    }
+                    return PlayerAction.Raise(context.CurrentPot);
                 }
                 else
                 {
-                    var currentPot = context.CurrentPot;
-                    int moneyToBet = currentPot;
-                    if (moneyToBet < 20)
-                    {
-                        moneyToBet = 20;
-                    }
+                    var hand = new List<Card>();
+                    hand.Add(this.FirstCard);
+                    hand.Add(this.SecondCard);
 
-                    return PlayerAction.Raise(moneyToBet);
+                    var ehs = EffectiveHandStrenghtCalculator.CalculateEHS(hand, this.CommunityCards);
+
+                    if (ehs < 0.3)
+                    {
+                        if (context.MoneyToCall <= context.MoneyLeft / 200)
+                        {
+                            return PlayerAction.CheckOrCall();
+                        }
+                        else
+                        {
+                            return this.Fold();
+                        }
+                    }
+                    else if (ehs < 0.5)
+                    {
+                        if (context.MoneyToCall <= context.MoneyLeft / 40)
+                        {
+                            return PlayerAction.CheckOrCall();
+                        }
+                        else
+                        {
+                            return this.Fold();
+                        }
+                    }
+                    else if (ehs < 0.62)
+                    {
+                        var currentPot = context.CurrentPot;
+                        int moneyToBet = (int)(currentPot * 0.55);
+
+                        if (context.MoneyToCall == 0)
+                        {
+                            return PlayerAction.Raise(moneyToBet);
+                        }
+                        else if (context.MoneyToCall < context.MoneyLeft / 20 || context.MoneyToCall < 50)
+                        {
+                            if (context.MoneyToCall < moneyToBet && context.MyMoneyInTheRound == 0)
+                            {
+                                return PlayerAction.Raise(moneyToBet - context.MoneyToCall + 1);
+                            }
+                            else
+                            {
+                                return PlayerAction.CheckOrCall();
+                            }
+                        }
+                        else
+                        {
+                            return this.Fold();
+                        }
+                    }
+                    else if (ehs < 0.75)
+                    {
+                        var currentPot = context.CurrentPot;
+                        int moneyToBet = (int)(currentPot * 0.75);
+
+                        if (context.MoneyToCall == 0)
+                        {
+                            return PlayerAction.Raise(moneyToBet);
+                        }
+                        else if (context.MoneyToCall < context.MoneyLeft / 10 || context.MoneyToCall < 70) // TODO:
+                        {
+                            if (context.MoneyToCall < moneyToBet && context.MyMoneyInTheRound == 0)
+                            {
+                                return PlayerAction.Raise(moneyToBet - context.MoneyToCall + 1);
+                            }
+                            else
+                            {
+                                return PlayerAction.CheckOrCall();
+                            }
+                        }
+                        else
+                        {
+                            return this.Fold();
+                        }
+                    }
+                    else if (ehs < 0.85)
+                    {
+                        var currentPot = context.CurrentPot;
+                        int moneyToBet = (int)(currentPot * 0.85);
+
+                        if (context.MoneyToCall == 0)
+                        {
+
+                            if (moneyToBet < 50)
+                            {
+                                moneyToBet = 50;
+                            }
+
+                            return PlayerAction.Raise(moneyToBet);
+                        }
+                        else if (context.MoneyToCall < context.MoneyLeft / 2 || context.MoneyToCall < 250)
+                        {
+                            if (context.MoneyToCall < moneyToBet && context.MyMoneyInTheRound == 0)
+                            {
+                                return PlayerAction.Raise(moneyToBet - context.MoneyToCall + 1);
+                            }
+                            else
+                            {
+                                return PlayerAction.CheckOrCall();
+                            }
+                        }
+                        else
+                        {
+                            return this.Fold();
+                        }
+                    }
+                    else
+                    {
+                        var currentPot = context.CurrentPot;
+                        int moneyToBet = currentPot;
+                        if (moneyToBet < 80)
+                        {
+                            moneyToBet = 80;
+                        }
+
+                        return PlayerAction.Raise(moneyToBet);
+                    }
                 }
             }
             #endregion
@@ -523,7 +467,7 @@
 
         private int GetPairInfo()
         {
-            if (this.FirstCard == this.SecondCard)
+            if (this.FirstCard.Type == this.SecondCard.Type)
             {
                 return (int)this.FirstCard.Type;
             }
@@ -542,6 +486,19 @@
             }
 
             return 0;
+        }
+
+        private bool IsPairHighestPossible(int pairType)
+        {
+            for (int i = 0; i < this.CommunityCards.Count; i++)
+            {
+                if((int)this.CommunityCards.ElementAt(i).Type > pairType)
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
     }
 }

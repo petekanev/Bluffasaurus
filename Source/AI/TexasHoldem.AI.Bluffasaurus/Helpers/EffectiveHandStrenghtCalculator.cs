@@ -53,7 +53,7 @@
             {
                 GenerateCombinations(7 - cardsOnTable.Count, 0, deck);
                 lastHandAndCardsOnTable = handAndCardsOnTable;
-                lastEHS = (double)((ahead + (tied / 2)) / (ahead + tied + behind));
+                lastEHS = (double)((ahead + (tied / 2)) / (double)(ahead + tied + behind));
             }
 
             return lastEHS;
@@ -132,6 +132,17 @@
                 {
                     case 3:
                         if (rand.Next(0, int.MaxValue) % 22 == 0)
+                        {
+                            var index1 = set.IndexOf(combination[0]);
+                            Swap(0, index1, set.ToArray());
+                            var index2 = set.IndexOf(combination[1]);
+                            Swap(1, index2, set.ToArray());
+                            DetermineWhoWinsHand(playerHand, cardsOnTable, set.ToArray());
+                        }
+
+                        break;
+                    case 4:
+                        if (rand.Next(0, int.MaxValue) % 420 == 0)
                         {
                             var index1 = set.IndexOf(combination[0]);
                             Swap(0, index1, set.ToArray());
