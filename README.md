@@ -4,7 +4,7 @@
 
 ## Poker Specific Algorithms
 
-###  EHS (Effective Hand Strength)
+* ###  EHS (Effective Hand Strength)
  ___
  The algorithm is a numerical approach to quantify the strength of a poker hand where its result expresses the strength of a particular hand in percentile (i.e. ranging from 0 to 1), compared to all other possible hands. The underlying assumption is that an Effective Hand Strength (EHS) is composed of the current Hand Strength (HS) and its potential to improve or deteriorate (PPOT and NPOT):
 ###### EHS = HS \times (1 - NPOT) + (1-HS) \times PPOT
@@ -17,18 +17,17 @@ where:
 [*Go to top* ^](#Bluffasaurus)<br/>
 [*More about the algorithm*](https://en.wikipedia.org/wiki/Poker_Effective_Hand_Strength_(EHS)_algorithm)
 
-### Monte Carlo 
+* ### Monte Carlo 
 ___
 
 Using the EHS algorithm, all possible remaining card sequences are
 considered. For this reason, this process can be time consuming, given the large
 number of possible sequences of cards. For example, the number of
 remaining cards is as follows:
-* Flop: 
-![image](http://www.sciweavers.org/tex2img.php?eq=%20%5Cfrac%7B47%21%7D%7B%2847-3%29%21%7D%20&bc=White&fc=Black&im=jpg&fs=12&ff=arev&edit=0)
+* Flop: 47! / (47-3)!
 <br/>
 <br/>
-* Turn:![image](http://www.sciweavers.org/tex2img.php?eq=%20%5Cfrac%7B46%21%7D%7B%2846-2%29%21%7D%20&bc=White&fc=Black&im=jpg&fs=12&ff=arev&edit=0)
+* Turn: 46! / (46-2)!
 
  This would take a lot of
 time to calculate.
@@ -45,22 +44,22 @@ More information of the usage within the Bot's logic you can find in the <b>Turn
 <br/>
 <br/><br/>
 ## Strategy
-### Pre-Flop
+* ### Pre-Flop
   * Hand evaluation: using Slansky hand groups. ( [*More information*](https://en.wikipedia.org/wiki/Texas_hold_%27em_starting_hands) )
   * Betting: Based on 
-  * hand evalutaion
-  * position on the table (i.e if the bot is on small or big blind)
-  * amount to call (converted in ![img](http://www.sciweavers.org/tex2img.php?eq=%20f%28blind%29&bc=White&fc=Black&im=jpg&fs=12&ff=arev&edit=0) )
-  
+ 	* hand evalutaion
+ 	* position on the table (i.e if the bot is on small or big blind)
+ 	* amount to call (converted in f(blind ) )
+ 	
    
 Reise | Check / Call
 ------------ | -------------
-![image](http://www.sciweavers.org/tex2img.php?eq=%20f%28blind%29&bc=White&fc=Black&im=jpg&fs=12&ff=arev&edit=0) | ![image](http://www.sciweavers.org/tex2img.php?eq=%20f%28blind%2cmoneyToCall%2cleftMoney%29&bc=White&fc=Black&im=jpg&fs=12&ff=arev&edit=0)
+<b>&fnof;(blind)<b/> | <b>&fnof;(blind, moneyToCall, leftMoney)</b>
  Popular strategy within the pre-flop is <br/>to bet from <b>3x</b> to <b>4x</b> the SB. <br/>Bluffasaurus Poker Bot is reising <br/>in the range <b>6x</b> up to <b>20x</b>. | Playing 75%-85% of the cards <br/>depending on the position on the table.
 
 [*Go to top* ^](#Bluffasaurus)<br/>
 ___
-### Flop
+* ### Flop
   * Hand evaluation: <br/>
    
 Time Limit: 0.1 s | Time Limit 0.05s
@@ -74,11 +73,11 @@ Using EHS + Monte Carlo with ~ 2000 combinations | using the chart of the (absol
  
  Reise | Check / Call
 ------------ | -------------
-![image](http://www.sciweavers.org/tex2img.php?eq=%20f%28blind%2cpot%29&bc=White&fc=Black&im=jpg&fs=12&ff=arev&edit=0) | ![image](http://www.sciweavers.org/tex2img.php?eq=%20f%28blind%2cmoneyToCall%2cleftMoney%29&bc=White&fc=Black&im=jpg&fs=12&ff=arev&edit=0)
+<b>&fnof;(blind, pot)</b> |  <b>&fnof;(blind, moneyToCall, leftMoney)</b>
 Reising in the range <b>8x</b> up to <b>30x</b> the SB. | -
 [*Go to top* ^](#Bluffasaurus)<br/>
 ___
-### Turn / River
+* ### Turn / River
   * Hand evaluation:
   
 Turn | River
