@@ -4,7 +4,7 @@
 
 ## Poker Specific Algorithms
 
-* ###  EHS (Effective Hand Strength)
+###  EHS (Effective Hand Strength)
  ___
  The algorithm is a numerical approach to quantify the strength of a poker hand where its result expresses the strength of a particular hand in percentile (i.e. ranging from 0 to 1), compared to all other possible hands. The underlying assumption is that an Effective Hand Strength (EHS) is composed of the current Hand Strength (HS) and its potential to improve or deteriorate (PPOT and NPOT):
 ###### EHS = HS \times (1 - NPOT) + (1-HS) \times PPOT
@@ -17,7 +17,7 @@ where:
 [*Go to top* ^](#Bluffasaurus)<br/>
 [*More about the algorithm*](https://en.wikipedia.org/wiki/Poker_Effective_Hand_Strength_(EHS)_algorithm)
 
-* ### Monte Carlo 
+### Monte Carlo 
 ___
 
 Using the EHS algorithm, all possible remaining card sequences are
@@ -59,7 +59,7 @@ Reise | Check / Call
 
 [*Go to top* ^](#Bluffasaurus)<br/>
 ___
-* ### Flop
+### Flop
   * Hand evaluation: <br/>
    
 Time Limit: 0.1 s | Time Limit 0.05s
@@ -77,7 +77,7 @@ Using EHS + Monte Carlo with ~ 2000 combinations | using the chart of the (absol
 Reising in the range <b>8x</b> up to <b>30x</b> the SB. | -
 [*Go to top* ^](#Bluffasaurus)<br/>
 ___
-* ### Turn / River
+### Turn / River
   * Hand evaluation:
   
 Turn | River
