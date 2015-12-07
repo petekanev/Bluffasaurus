@@ -25,10 +25,10 @@ considered. For this reason, this process can be time consuming, given the large
 number of possible sequences of cards. For example, the number of
 remaining cards is as follows:
 * Flop: 
-[alt text](http://www.sciweavers.org/tex2img.php?eq=%20%5Cfrac%7B47%21%7D%7B%2847-3%29%21%7D%20&bc=White&fc=Black&im=jpg&fs=12&ff=arev&edit=0)
+![image](http://www.sciweavers.org/tex2img.php?eq=%20%5Cfrac%7B47%21%7D%7B%2847-3%29%21%7D%20&bc=White&fc=Black&im=jpg&fs=12&ff=arev&edit=0)
 <br/>
 <br/>
-* Turn:[*nanan*](http://www.sciweavers.org/tex2img.php?eq=%20%5Cfrac%7B46%21%7D%7B%2846-2%29%21%7D%20&bc=White&fc=Black&im=jpg&fs=12&ff=arev&edit=0)
+* Turn:![image](http://www.sciweavers.org/tex2img.php?eq=%20%5Cfrac%7B46%21%7D%7B%2846-2%29%21%7D%20&bc=White&fc=Black&im=jpg&fs=12&ff=arev&edit=0)
 
  This would take a lot of
 time to calculate.
@@ -55,7 +55,7 @@ More information of the usage within the Bot's logic you can find in the <b>Turn
    
 Reise | Check / Call
 ------------ | -------------
-![alt text](http://www.sciweavers.org/tex2img.php?eq=%20f%28blind%29&bc=White&fc=Black&im=jpg&fs=12&ff=arev&edit=0) | ![alt text](http://www.sciweavers.org/tex2img.php?eq=%20f%28blind%2cmoneyToCall%2cleftMoney%29&bc=White&fc=Black&im=jpg&fs=12&ff=arev&edit=0)
+![image](http://www.sciweavers.org/tex2img.php?eq=%20f%28blind%29&bc=White&fc=Black&im=jpg&fs=12&ff=arev&edit=0) | ![image](http://www.sciweavers.org/tex2img.php?eq=%20f%28blind%2cmoneyToCall%2cleftMoney%29&bc=White&fc=Black&im=jpg&fs=12&ff=arev&edit=0)
  Popular strategy within the pre-flop is <br/>to bet from <b>3x</b> to <b>4x</b> the SB. <br/>Bluffasaurus Poker Bot is reising <br/>in the range <b>6x</b> up to <b>20x</b>. | Playing 75%-85% of the cards <br/>depending on the position on the table.
 
 [*Go to top* ^](#Bluffasaurus)<br/>
@@ -74,7 +74,7 @@ Using EHS + Monte Carlo with ~ 2000 combinations | using the chart of the (absol
  
  Reise | Check / Call
 ------------ | -------------
-![alt text](http://www.sciweavers.org/tex2img.php?eq=%20f%28blind%2cpot%29&bc=White&fc=Black&im=jpg&fs=12&ff=arev&edit=0) | ![alt text](http://www.sciweavers.org/tex2img.php?eq=%20f%28blind%2cmoneyToCall%2cleftMoney%29&bc=White&fc=Black&im=jpg&fs=12&ff=arev&edit=0)
+![image](http://www.sciweavers.org/tex2img.php?eq=%20f%28blind%2cpot%29&bc=White&fc=Black&im=jpg&fs=12&ff=arev&edit=0) | ![image](http://www.sciweavers.org/tex2img.php?eq=%20f%28blind%2cmoneyToCall%2cleftMoney%29&bc=White&fc=Black&im=jpg&fs=12&ff=arev&edit=0)
 Reising in the range <b>8x</b> up to <b>30x</b> the SB. | -
 [*Go to top* ^](#Bluffasaurus)<br/>
 ___
