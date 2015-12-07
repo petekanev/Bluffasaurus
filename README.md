@@ -44,7 +44,7 @@ More information of the usage within the Bot's logic you can find in the <b>Turn
 <br/>
 <br/><br/>
 ## Strategy
-* ### Pre-Flop
+### Pre-Flop
   * Hand evaluation: using Slansky hand groups. ( [*More information*](https://en.wikipedia.org/wiki/Texas_hold_%27em_starting_hands) )
   * Betting: Based on 
  	* hand evalutaion
@@ -77,6 +77,7 @@ Using EHS + Monte Carlo with ~ 2000 combinations | using the chart of the (absol
 Reising in the range <b>8x</b> up to <b>30x</b> the SB. | -
 [*Go to top* ^](#Bluffasaurus)<br/>
 ___
+
 ### Turn / River
   * Hand evaluation:
   
