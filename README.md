@@ -25,10 +25,10 @@ considered. For this reason, this process can be time consuming, given the large
 number of possible sequences of cards. For example, the number of
 remaining cards is as follows:
 * Flop: 
-![alt text](http://www.sciweavers.org/tex2img.php?eq=%20%5Cfrac%7B47%21%7D%7B%2847-3%29%21%7D%20&bc=White&fc=Black&im=jpg&fs=12&ff=arev&edit=0)
+[alt text](http://www.sciweavers.org/tex2img.php?eq=%20%5Cfrac%7B47%21%7D%7B%2847-3%29%21%7D%20&bc=White&fc=Black&im=jpg&fs=12&ff=arev&edit=0)
 <br/>
 <br/>
-* Turn:![alt text](http://www.sciweavers.org/tex2img.php?eq=%20%5Cfrac%7B46%21%7D%7B%2846-2%29%21%7D%20&bc=White&fc=Black&im=jpg&fs=12&ff=arev&edit=0)
+* Turn:[*nanan*](http://www.sciweavers.org/tex2img.php?eq=%20%5Cfrac%7B46%21%7D%7B%2846-2%29%21%7D%20&bc=White&fc=Black&im=jpg&fs=12&ff=arev&edit=0)
 
  This would take a lot of
 time to calculate.
